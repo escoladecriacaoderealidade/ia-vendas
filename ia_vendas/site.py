@@ -80,8 +80,9 @@ def criar_fetch_http(user_agent: str = USER_AGENT, timeout: float = 10.0, interv
                     return r.status, tipo, bruto.decode("utf-8", "replace")
         except HTTPError as e:
             return e.code, "", ""
-        except Exception:
-            return 0, "", ""
+        except Exception as e:
+            # Status 0 = falha de rede. O corpo carrega o motivo (certificado, DNS, tempo esgotado...) para o relatório.
+            return 0, "", f"{type(e).__name__}: {e}"[:200]
 
     return buscar
 
@@ -210,7 +211,10 @@ def coletar_site(base_url: str, buscar: Buscar, max_paginas: int = 60) -> dict:
                         vistos.add(l["href"])
                         fila.append(l["href"])
         else:
-            paginas.append({"url": url, "status": status})
+            falha = {"url": url, "status": status}
+            if status == 0 and corpo:
+                falha["erro"] = corpo[:200]
+            paginas.append(falha)
 
     return {
         "base_url": base_url,

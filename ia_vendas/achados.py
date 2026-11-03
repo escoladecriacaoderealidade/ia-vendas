@@ -36,8 +36,11 @@ def gerar_achados(site: dict, repo: dict | None = None) -> list[dict]:
                         "evidencia": evidencia, "receita": RECEITAS.get(receita), "possivel_decisao": _decisoes(repo, tuple(chaves))})
 
     if n == 0:
+        motivo = next((p["erro"] for p in site["paginas"] if p.get("erro")), None)
         add("sem_paginas", "Nenhuma página pôde ser lida", "alta",
-            f"{r['paginas_com_erro']} endereço(s) falharam. Pode ser bloqueio do robots.txt, site fora do ar, endereço errado, ou um aplicativo que monta a página por JavaScript (o coletor lê só HTML).")
+            f"{r['paginas_com_erro']} endereço(s) falharam. "
+            + (f"Motivo informado pela rede: {motivo}. " if motivo else "")
+            + "Pode ser bloqueio do robots.txt, site fora do ar, endereço errado, problema de certificado no computador, ou um aplicativo que monta a página por JavaScript (o coletor lê só HTML).")
         # Sem páginas não dá para afirmar nada sobre o site, mas o que vem só do código continua valendo.
         if repo and repo["medicao"]["propria"] and not repo["medicao"]["reconhece_cliques_de_anuncios"]:
             add("anuncios_nao_reconhecidos", "A medição não reconhece cliques de anúncios (gclid, msclkid, fbclid)", "media",

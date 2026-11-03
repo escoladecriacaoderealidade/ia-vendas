@@ -8,7 +8,7 @@ Os sites do Carlos Farias são os **casos de teste**: Escola de Criação de Rea
 Fase 0 concluída (três casos auditados, medição própria nos três em pull requests, base de regras inicial e robô diário agendado). **Fase 1 em pull request:** o coletor de site, o leitor de repositório, os achados e o relatório já funcionam e têm 35 testes. Veja o roteiro em [docs/arquitetura.md](docs/arquitetura.md).
 
 ## Como usar
-Só precisa do Python 3 (sem instalar nada):
+Passo a passo para Windows: [docs/como-rodar-no-windows.md](docs/como-rodar-no-windows.md). Só precisa do Python 3 (sem instalar nada):
 
 ```
 python -m ia_vendas analisar --url https://exemplo.com.br --repo ../pasta-do-repositorio-do-cliente --saida resultado
@@ -25,7 +25,7 @@ Gera `resultado/analise.json` (dados, ver [docs/formato-analise.md](docs/formato
 | Pasta | Conteúdo |
 |---|---|
 | `ia_vendas/` | O código: `coletor.py` (uma página), `site.py` (o site inteiro), `repositorio.py`, `achados.py`, `funil.py`, `relatorio.py`, `cli.py` |
-| `tests/` | 35 testes automáticos (sites de exemplo, servidor local, repositório de exemplo) |
+| `tests/` | 36 testes automáticos (sites de exemplo, servidor local, repositório de exemplo) |
 | `docs/arquitetura.md` | Estrutura proposta do produto, módulos, modos de operação, roteiro e decisões pendentes |
 | `docs/formato-analise.md` | O que há dentro do `analise.json` |
 | `receitas/` | Receitas reutilizáveis: o que verificar, critério de "certo", como corrigir. Quatro já foram feitas em casos reais |

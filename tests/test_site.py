@@ -118,7 +118,8 @@ def test_http_respeita_robots_identifica_o_robo_e_trata_erros(servidor):
     assert b(servidor + "/nada")[0] == 404
     assert b(servidor + "/imagem.png") [2] == ""                     # não baixa o que não é texto
     assert all(a.startswith("IAVendasBot/") for a in _Servidor.agentes)
-    assert criar_fetch_http(intervalo=0, timeout=1)("http://127.0.0.1:1/")[0] == 0   # sem servidor: falha de rede
+    falha = criar_fetch_http(intervalo=0, timeout=1)("http://127.0.0.1:1/")
+    assert falha[0] == 0 and falha[2] != ""                          # sem servidor: falha de rede, com o motivo
 
 
 def test_http_pode_ignorar_robots_so_se_pedirem(servidor):
@@ -139,3 +140,12 @@ def test_varias_pastas_sobrepostas(site_dir, tmp_path):
     assert "Home da camada" in b(BASE)[2]                 # a primeira pasta vence
     assert b(BASE + "livros/")[0] == 200                   # o resto vem da segunda
     assert b(BASE + "nada/")[0] == 404
+
+
+def test_motivo_da_falha_de_rede_chega_ao_achado():
+    from ia_vendas.achados import gerar_achados
+    quebrado = lambda url: (0, "", "SSLCertVerificationError: certificate verify failed")   # noqa: E731
+    s = coletar_site(BASE, quebrado)
+    assert s["paginas"][0] == {"url": BASE, "status": 0, "erro": "SSLCertVerificationError: certificate verify failed"}
+    achado = gerar_achados(s)[0]
+    assert achado["id"] == "sem_paginas" and "SSLCertVerificationError" in achado["evidencia"]
