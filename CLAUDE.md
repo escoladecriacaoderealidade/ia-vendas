@@ -22,6 +22,9 @@ Antes de mexer em qualquer repositório de cliente, registre o commit da `main` 
 
 ## Convenções
 - Receitas novas seguem o formato de `receitas/README.md`.
+- Código só com a biblioteca padrão do Python (o `pip` falha no computador do Carlos por certificado). Testes: `python -m pytest`.
+- O coletor respeita o robots.txt e se identifica como `IAVendasBot`. Não desligue isso sem decisão do Carlos por escrito.
+- Achado automático é estatuto I ou H, nunca V. "Possível decisão do cliente" é aviso para confirmar, não veredicto.
 - Comentários e mensagens de commit em português.
 - Testes sempre que houver código; rode a suíte antes e depois e compare (linha de base).
 - Segredos só em variáveis de ambiente / cofres. Modelo de variáveis em `.env.example` (nunca o `.env` real).

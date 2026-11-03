@@ -13,9 +13,9 @@ Objetivo: uma IA que serve para qualquer site ou modelo de venda. Os sites do Ca
 ## 2. Módulos
 | Módulo | Função | Situação |
 |---|---|---|
-| Coletor de site | Busca páginas, extrai título, descrição, JSON-LD, links, botões, formulários, etiquetas de medição, robots/sitemap/llms.txt | Feito à mão nesta sessão; automatizar |
-| Leitor de repositório | Lê CLAUDE.md, decisões, pendências, código de SEO e de medição | Feito à mão; automatizar |
-| Mapa de funil | Grafo de passos (página → botão → app → checkout) + eventos medidos + quebras | Rascunhos nos documentos do Projeto IA Vendas |
+| Coletor de site | Busca páginas, extrai título, descrição, JSON-LD, links, botões, formulários, etiquetas de medição, robots/sitemap/llms.txt | **Fase 1 pronta** (`ia_vendas/coletor.py`, `site.py`); testado em pasta local e servidor local, ainda não em sites reais pela internet |
+| Leitor de repositório | Lê CLAUDE.md, decisões, pendências, código de SEO e de medição | **Fase 1 pronta** (`ia_vendas/repositorio.py`) |
+| Mapa de funil | Grafo de passos (página → botão → app → checkout) + eventos medidos + quebras | Versão simples pronta (`funil.py`: saídas para outros endereços, hipótese H); o grafo completo fica para a Fase 3 |
 | Medição própria padrão | Visita, clique, canal de origem, sem cookies, respeita "Não rastrear" | **Já existe** no Enquanto e no Estuda (eventos); em pull request para a Escola (visitas) e para o Imitação de Cristo (canal do cadastro) |
 | Base de regras dos mecanismos | Regras versionadas, cada uma com fonte, data, confiança | Documento inicial criado (`monitor-mecanismos-venda`, no Projeto), ainda em estatuto R |
 | Robô diário | Coleta fontes, compara, classifica impacto, atualiza a base, alerta | Tarefa agendada criada: todo dia às 06:56 (Brasília), primeira execução em 04/11/2026; ainda não testada |
@@ -46,7 +46,7 @@ Reaproveitar do repositório ia-consciencia: banco PostgreSQL/Supabase, busca em
 
 ## 6. Roteiro
 - **Fase 0 (feita em 03/11/2026)**: três casos auditados, cinco pull requests abertos (nenhum publicado; dois em rascunho), base de regras inicial, robô diário agendado, repositório `ia-vendas` criado com regras e receitas.
-- **Fase 1**: automatizar o coletor de site e o leitor de repositório com saída padronizada (JSON) e relatório no mesmo formato do diagnóstico inicial.
+- **Fase 1 (em pull request, 03/11/2026)**: coletor de site, leitor de repositório, achados (separando decisão deliberada de lacuna), funil simples e relatório em Markdown, com saída padronizada em JSON. Validada nos clones da Escola, do Enquanto Estuda e do Imitação de Cristo; os achados bateram com a auditoria manual. **Falta** rodar em sites reais pela internet (no computador do Carlos), medir tempo em sites grandes e ligar o relatório ao robô diário.
 - **Fase 2**: base de regras com histórico, robô diário estável por 2 semanas, resumo semanal.
 - **Fase 3**: motor de recomendações priorizadas (impacto × esforço) e receitas catalogadas.
 - **Fase 4**: painel e vários clientes; cobrança.
