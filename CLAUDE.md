@@ -1,6 +1,10 @@
 # IA de Vendas — regras de trabalho (para o Claude e para quem mexer aqui)
 
-Leia este arquivo inteiro antes de qualquer tarefa. Contexto do produto: `README.md` e `docs/arquitetura.md`.
+Leia este arquivo inteiro antes de qualquer tarefa. **Primeiro leia o estado atual do projeto, pendências e como publicar:**
+
+@CONTEXTO.md
+
+Contexto do produto: `README.md` e `docs/arquitetura.md`.
 
 ## Quem é o dono
 Carlos Farias (José Carlos Rosa Farias), autor e educador de Santa Maria/RS. **Não é programador.** Fale sempre em **português do Brasil**, em linguagem simples, passo a passo. Quando ele precisar clicar em algo (GitHub, Vercel, Railway, Supabase), dê o caminho exato dos menus. Ele costuma mandar fotos da tela. **Nunca peça segredos** (senhas, chaves): ele os digita direto nos cofres.

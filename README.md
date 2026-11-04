@@ -29,6 +29,7 @@ Gera `resultado/analise.json` (dados, ver [docs/formato-analise.md](docs/formato
 | `docs/arquitetura.md` | Estrutura proposta do produto, módulos, modos de operação, roteiro e decisões pendentes |
 | `docs/formato-analise.md` | O que há dentro do `analise.json` |
 | `receitas/` | Receitas reutilizáveis: o que verificar, critério de "certo", como corrigir. Quatro já foram feitas em casos reais |
+| `CONTEXTO.md` | **Comece por aqui:** estado atual, pull requests, como publicar, pendências em ordem, lições aprendidas |
 | `CLAUDE.md` | Regras de trabalho para quem (pessoa ou IA) mexer neste repositório |
 
 ## Onde ficam os documentos vivos
