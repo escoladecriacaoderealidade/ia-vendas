@@ -12,7 +12,10 @@ import re
 from pathlib import Path
 
 ARQUIVOS_DE_REGRAS = ("CLAUDE.md", "AGENTS.md", "CONTEXTO.md", "README.md")
-IGNORAR = {".git", "node_modules", ".venv", "venv", "__pycache__", ".vercel", "dist", "build", ".next", ".expo"}
+# "_cache" e ".cache" guardam cópias de páginas de OUTROS sites (ex.: súmulas do STF no Enquanto): o código de
+# medição delas não é do cliente e gerava falso "Google Analytics" no relatório.
+IGNORAR = {".git", "node_modules", ".venv", "venv", "__pycache__", ".vercel", "dist", "build", ".next", ".expo",
+           "_cache", ".cache"}
 EXT_TEXTO = {".html", ".htm", ".js", ".jsx", ".ts", ".tsx", ".py", ".json", ".md", ".txt", ".xml"}
 EXT_CODIGO = {".html", ".htm", ".js", ".jsx", ".ts", ".tsx", ".py"}
 LIMITE_ARQUIVO = 8_000_000   # o app do Enquanto é um único HTML de vários MB; pular arquivo grande esconderia a medição

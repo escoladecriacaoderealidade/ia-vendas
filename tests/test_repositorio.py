@@ -58,6 +58,20 @@ def test_seo_medicao_privacidade_implantacao(repo):
     assert r["tem_testes"] is True and r["pendencias"] == ["docs/pendencias.md"]
 
 
+def test_cache_de_paginas_de_terceiros_nao_conta_como_medicao_do_cliente(tmp_path):
+    # Caso real: biblioteca/livre/_cache/sumulas/*.html são cópias de páginas do STF, com o Google Analytics do STF.
+    cache = tmp_path / "biblioteca" / "livre" / "_cache" / "sumulas"
+    cache.mkdir(parents=True)
+    (cache / "lista-26.html").write_text('<script src="https://www.googletagmanager.com/gtag/js?id=G-X"></script>', encoding="utf-8")
+    (tmp_path / ".cache").mkdir()
+    (tmp_path / ".cache" / "x.js").write_text("fbq('init')", encoding="utf-8")
+    (tmp_path / "pagina.html").write_text("<script>navigator.sendBeacon('/api/evento', x)</script>", encoding="utf-8")
+    r = ler_repositorio(tmp_path)
+    assert r["medicao"]["terceiros"] == {}
+    assert "envio de eventos (sendBeacon)" in r["medicao"]["propria"]
+    assert r["estrutura"]["arquivos"] == 1
+
+
 def test_pasta_inexistente(tmp_path):
     with pytest.raises(FileNotFoundError):
         ler_repositorio(tmp_path / "nao-existe")
