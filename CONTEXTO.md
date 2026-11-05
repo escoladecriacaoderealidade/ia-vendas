@@ -1,6 +1,6 @@
 # CONTEXTO DO PROJETO — IA Vendas
 
-> Documento de passagem para continuar o trabalho direto do VS Code. Atualizado em **04/11/2026**.
+> Documento de passagem para continuar o trabalho direto do VS Code. Atualizado em **05/11/2026**.
 > Dono: **Carlos Farias** (José Carlos Rosa Farias), Santa Maria/RS. Não é programador: fale em português do Brasil, simples, passo a passo, com o caminho exato dos menus. Ele manda fotos da tela.
 > Se você é um assistente de IA lendo isto: **leia inteiro, depois leia `CLAUDE.md` (regras)**, antes de mudar qualquer coisa. Os estatutos usados aqui: **V** verificado na fonte (com data) · **R** reportado por terceiros · **I** inferido · **H** hipótese · **D** decisão do cliente.
 
@@ -24,7 +24,7 @@ Cada caso tem o próprio `CLAUDE.md` com regras do dono. **Leia o do caso antes 
 ## 2. O que existe hoje
 
 **Código (Fase 1, Python só com biblioteca padrão):** `ia_vendas/`
-`coletor.py` (uma página) · `site.py` (site inteiro, robots, sitemap, llms.txt) · `repositorio.py` (lê CLAUDE.md, decisões, pendências, código de SEO/medição) · `achados.py` (separa "possível decisão do cliente" de lacuna) · `funil.py` (saídas para outros endereços, hipótese H) · `relatorio.py` · `cli.py`. 36 testes (`python -m pytest`).
+`coletor.py` (uma página) · `site.py` (site inteiro, robots, sitemap, llms.txt) · `repositorio.py` (lê CLAUDE.md, decisões, pendências, código de SEO/medição) · `achados.py` (separa "possível decisão do cliente" de lacuna) · `funil.py` (saídas para outros endereços, hipótese H) · `relatorio.py` · `cli.py`. 37 testes (uma vez um deles falhou numa rodada e passou sozinho nas três seguintes: `test_http_respeita_robots...`; I: intermitente, causa não investigada) (`python -m pytest`).
 
 Comando principal (no PowerShell do VS Code, **não** no `>>>` do Python):
 ```
@@ -40,24 +40,27 @@ Opções: `--dir PASTA` (repetível, lê site estático em disco), `--repo PASTA
 
 ---
 
-## 3. Estado dos pull requests (04/11/2026) — NADA disto está publicado nos sites
+## 3. Estado dos pull requests e das publicações (05/11/2026)
 
-Regra do projeto: **nada vai direto na `main`; tudo por pull request que o Carlos revisa.**
+Regra do projeto: **nada vai direto na `main`; tudo por pull request que o Carlos revisa.** Registro completo de cada deploy e ponto de volta: `C:\Users\Cliente\Documents\backups-ia-vendas\deploys-atuais-2026-11-05.md` (fora dos repositórios; o Carlos guarda cópia em HD externo).
 
-| Repositório | PR | Situação | O que faz |
-|---|---|---|---|
-| escola | #3 `trabalho-local-aplicativos` | **mesclado** | Salvou no GitHub o trabalho que só existia no computador (página Aplicativos, visual novo, PWA, 39 arquivos). |
-| escola | #1 `melhorias-medicao-e-descoberta` | aberto | Tags og:image/og:site_name/twitter em todas as páginas + logo no Organization. **Precisa ser refeito sobre o #3** (conflitos esperados em `index.html`, páginas de livros geradas, `sitemap.xml`, `tools/gerar_paginas_livros.py`). |
-| escola | #2 `medicao-propria` (rascunho) | aberto | `medir.js` + `tools/medicao.py`. **Também precisa ser refeito sobre o #3.** Depende do endpoint do Enquanto #2. |
-| enquanto | #3 e #4 | **mesclados** | Removeu a cópia antiga da raiz (136 arquivos), reforçou `.gitignore` (biblioteca/, enquanto/site/, enquanto/privado/, .env), adicionou `COMO-PUBLICAR.md`. |
-| enquanto | #1 `canal-anuncios-medicao` | aberto | `canal()` reconhece gclid/msclkid/fbclid/utm_source. |
-| enquanto | #2 `medicao-visitas-paginas` (rascunho) | aberto | `api/visita.js`, tabela `visitas` (SQL `enquanto/docs/banco-supabase-20.sql`), texto de privacidade "Páginas públicas". **Exige rodar o SQL no Supabase antes do deploy.** |
-| ia-consciencia | #1 `registra-canal-cadastro` | aberto | Guarda o canal de origem do cadastro (`users.metadata`, sem migration) + relatório `/admin/reports/channels`. |
-| ia-vendas | #1 `fase-1-coletor` | aberto | O código da Fase 1 e este documento. **Mesclar primeiro** (ver seção 5, passo 1). |
+**No ar em 05/11/2026 (V, conferido por consulta ao site e ao banco):**
+
+| Site | Versão / commit | O que entrou |
+|---|---|---|
+| Escola (`escoladecriacaoderealidade.com.br`) | `main` 480f942 | Preços só na página de cada livro (D), botão "Comprar no Enquanto", tags de compartilhamento, correção das capas em "outras obras", botão X do menu no computador, **medição anônima (`medir.js`) em 21 páginas**. |
+| Enquanto / Estuda | 4.113.2 (`main` 9670403) | Canal do fbclid = `meta`; **`/api/visita` + tabela `visitas`**; origens aceitas: Escola, `www.enquantoestuda.com.br`, `estuda.` e `enquanto.escoladecriacaoderealidade.com.br`; política de privacidade com MEI (só CNPJ) e "Páginas públicas"; contato = `escoladecriacaoderealidade@gmail.com`. |
+| Imitação de Cristo (API e site) | `main` 43f7411 | Canal de origem do cadastro (`users.metadata`, relatório `/v1/admin/reports/channels`); Política e Termos com o MEI como titular. |
+| Supabase `enquanto-br` | `banco-supabase-20.sql` rodado | Tabela `visitas` (RLS ligado, sem políticas) e função `visitas_resumo`. Visitas reais da Escola e do Estuda gravadas e conferidas pelo Carlos. |
+
+**Repositório ia-vendas:** #1 (Fase 1), #2 (falso Google Analytics por pasta de cache) e #3 (receita: fbclid = `meta`) estão mesclados.
+
+**Pull requests antigos que devem ser fechados, se ainda abertos (I, não conferi):** Escola #1, #2 e #5 (foram refeitos e substituídos; o refeito do `medir.js` é o #9, mesclado). Não mesclar nenhum deles: estão sobre uma base velha e apagariam preços, capas e menu.
 
 Confira sempre o estado real antes de agir (GitHub → aba *Pull requests*). Esta tabela envelhece.
 
 ---
+
 
 ## 4. Como o Carlos publica cada coisa (resumo; completo no guia do Projeto)
 
@@ -70,35 +73,35 @@ Confira sempre o estado real antes de agir (GitHub → aba *Pull requests*). Est
 
 **Voltar atrás:** Vercel → projeto → *Deployments* → ⋯ na versão antiga → *Promote to Production* (ou *Instant Rollback*). Railway → *Deployments* → versão antiga → *Redeploy*. Código: branch `backup-2026-11-03` existe nos 3 repositórios de cliente (commits: Escola `36a4441b19`, Enquanto `99fbef1bc8`, ia-consciencia `aed398d888`).
 
-**Ordem sugerida de publicação (I — conferir nos corpos dos PRs):** (1) Enquanto #1 · (2) SQL `banco-supabase-20` → Enquanto #2 · (3) ia-consciencia #1 (API, depois site) · (4) Escola #1 refeito · (5) Escola #2 refeito (só depois do Enquanto #2 no ar, porque envia visitas para ele). Um por vez, conferindo o site entre um e outro.
+**Ordem de publicação que funcionou em 05/11 (V):** banco → API → site, um por vez, conferindo o site no ar e a tabela entre um e outro. Antes de cada deploy: copiar o site que está no ar para `backups-ia-vendas`, construir, comparar com o que está no ar ignorando datas e versão, mostrar ao Carlos e esperar "pode publicar". A Escola é publicada a partir da pasta limpa `Documents\GitHub\escola-publicar` (com `.vercel` copiado), não da pasta de trabalho antiga. A prévia do Vercel (sem `--prod`) fica atrás de login: serve só para o Carlos olhar, não para teste automático nem de medição (a origem dela não é aceita).
 
 ---
 
 ## 5. Pendências, em ordem
 
 ### Carlos (ações dele)
-1. **Revisar e mesclar `ia-vendas` PR #1** e depois, no VS Code: `git checkout main` e `git pull`.
-2. **Anotar os deploys atuais** (para poder voltar): Vercel (escola, enquanto, ia-consciencia-web) = endereço do deploy marcado *Production*; Railway `supportive-fulfillment` → serviço → *Deployments* → o *ACTIVE*. Guardar no guia do Projeto. *(Em 04/11 ele já viu o da Escola: commit `36a4441`, 31/out; faltam os outros.)*
-3. **Guardar cópia de segurança dos livros completos** (`enquanto-app\biblioteca\`, `enquanto\privado\`): **não estão no GitHub de propósito** (D) e só existem no computador. Copiar para um HD externo ou Drive privado.
-4. Atualizar a pasta local da Escola com segurança depois do #3 (não usar `git pull` com mudanças soltas): renomear a pasta antiga, clonar de novo, copiar `.env.local` e a pasta `.vercel`. **O Claude passa o passo a passo na hora.**
-5. Rodar `banco-supabase-20.sql` no Supabase **só quando for publicar o Enquanto #2**.
-6. Revisar o texto de privacidade com o contador (CNPJ do MEI × INFLOW), antes de publicar medição de visitas.
-7. Google Search Console e Bing Webmaster: cadastrar os sites e os sitemaps; Google Cloud → Público → **Publicar app** (login Google do Imitação de Cristo).
-8. Decidir (D) **antes de qualquer campanha**: ver seção 6 (Merchant Center).
-9. Definir primeiros clientes além dos sites dele e, quando existirem, contas de anúncios (Google, Bing, Meta) com quem dá acesso e teto de gasto.
+1. **Revisar com o contador os textos de privacidade** (MEI só com o CNPJ como titular; coleta anônima de visitas; contato novo). Já estão no ar (texto aprovado por ele em 05/11).
+2. **Copiar a pasta `backups-ia-vendas` de novo para o HD externo** (cresceu depois da última cópia: backups do Enquanto 4.113.0 e 4.113.1, registros de deploy) e guardar cópia dos livros completos (`enquanto-app\biblioteca\`, `enquanto\privado\`; **não estão no GitHub de propósito**, D).
+3. **Fechar no GitHub os PRs antigos da Escola** (#1, #2, #5), se ainda abertos.
+4. Conferir a tela "Quem publica o app" dentro do app (deve mostrar o e-mail novo; o texto da INFLOW como publicadora foi mantido por decisão dele, D).
+5. Se quiser o mesmo e-mail na loja: mudar o contato no painel do Google Play (não está no repositório).
+6. Google Search Console e Bing Webmaster: cadastrar os sites e os sitemaps; Google Cloud → Público → **Publicar app** (login Google do Imitação de Cristo).
+7. Decidir (D) **antes de qualquer campanha**: ver seção 6 (Merchant Center).
+8. Definir primeiros clientes além dos sites dele e, quando existirem, contas de anúncios (Google, Bing, Meta) com quem dá acesso e teto de gasto.
 
 ### Claude / desenvolvimento
-1. **Refazer Escola PR #1 e #2 por cima do #3 mesclado** (primeira coisa a fazer numa sessão nova).
-2. Rodar a análise **pela internet no computador do Carlos** (sessões na nuvem não alcançam sites de fora): Escola, Enquanto Estuda, app; com `--repo` para ver os achados de "possível decisão" (preço etc.); medir tempo em site grande.
-3. Ligar o relatório da Fase 1 ao robô diário (hoje o robô só atualiza o monitor de regras).
+1. **Testar o canal de cadastro do Imitação de Cristo** no relatório `/v1/admin/reports/channels` com um cadastro real (ainda não verificado no ar).
+2. Rodar de novo a análise **pela internet no computador do Carlos** (Escola, Enquanto Estuda, app), com `--repo`, para ver o efeito das mudanças de hoje (preços, medição) nos achados.
+3. Decidir com o Carlos se o resumo de visitas (`visitas_resumo`) entra no relatório da Fase 1. Ligar o relatório ao robô diário só com aprovação dele (hoje o robô só atualiza o monitor de regras).
 4. **Fase 2:** base de regras com histórico; robô estável por 2 semanas; resumo semanal.
 5. **Fase 3:** motor de recomendações priorizadas (impacto × esforço), grafo de funil completo, receitas catalogadas.
 6. Fases 4–5 (painel, vários clientes, campanhas com aprovação e teto) — ver `docs/arquitetura.md`.
-7. Pequenas: `medir.js` da Escola envia evento de clique para links de rodapé (privacidade) — ruído menor, distinguível pelo destino; confirmar que os relatórios existentes não ficam distorcidos (regra 8 do CLAUDE.md).
+7. Pequenas: `medir.js` envia evento de clique também para links de rodapé (privacidade) — ruído menor, distinguível pelo destino; os relatórios existentes não contam a tabela `visitas` (regra 8 do CLAUDE.md; I, pelo desenho de tabela à parte). Os documentos internos `enquanto/play/ficha-da-loja.md` e `enquanto/docs/android-play.md` ainda citam o e-mail antigo da INFLOW.
 
 ---
 
-## 6. O que o robô já confirmou (V, 04/11/2026) — leia antes de planejar anúncios
+
+## 6. O que o robô já confirmou (V, 04/11/2026; não revisto em 05/11) — leia antes de planejar anúncios
 
 - **Merchant Center (política oficial "Unsupported Shopping content"):** e-books/livros digitais **não** são permitidos em anúncios **Shopping** (valem listagens gratuitas); conteúdo digital com assinatura recorrente não é aceito como pagamento recorrente. Implicação (I): livros em e-book da Escola e assinaturas mensais do Enquanto/Imitação de Cristo **não** devem ir para campanha Shopping. Falta verificar a situação de apps e de audiolivros na prática. **Precisa de decisão do Carlos.**
 - **Anúncios no AI Mode (Google, 28/10/2026):** ativos em 10 países; **Brasil ainda não**, previsto "in Q4 2026". Ação sugerida: preparar dados estruturados, feeds e conversões antes.
@@ -128,3 +131,7 @@ Confira sempre o estado real antes de agir (GitHub → aba *Pull requests*). Est
 - Comentário no fim da linha do `.gitignore` vira parte do padrão e desliga a proteção: **comentário em linha própria** e testar com `git add -A -n`.
 - Quebras de linha do Windows geram "modified" falso (`core.autocrlf true` na pasta ligada).
 - `vercel --prod` rodado na pasta errada criou projeto errado no passado: só dentro da pasta indicada de cada projeto.
+- Um teste que "deu zero" pode ser o teste errado: a medição de visitas descarta em silêncio origens fora da lista, e testei por um endereço que não estava nela. Antes de culpar o código, conferir pelo endereço oficial (`canonical`).
+- Branch de PR antigo (Escola #1/#2/#5) ficou sobre base velha: mesclar apagaria trabalho já publicado. Ao refazer, partir da `main` atual e conferir que só mudaram as linhas esperadas (`git diff --stat` e linhas removidas = 0).
+- Colar o **caminho** de um arquivo no corpo do PR em vez do texto dele (aconteceu no Escola #5). Abrir o arquivo e copiar o conteúdo.
+- A prévia do Vercel exige login: o teste automático recebe a página de login (200) e engana. Dizer isso ao Carlos em vez de afirmar que a prévia funciona.
